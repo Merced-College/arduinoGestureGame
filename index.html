@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Arduino Gesture Game&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #f4f4f4;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>h1 {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>#controls {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>#game {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 900px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 250px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 2px solid #333;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: white;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>#player {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>left: 80px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 40px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 40px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: royalblue;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>#ground {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>bottom: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #333;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>#status {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.jump {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>animation: jumpAnim 0.6s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.slide {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>animation: slideAnim 0.5s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>@keyframes jumpAnim {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>0% <span class="Apple-converted-space">  </span>{ bottom: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>30%<span class="Apple-converted-space">  </span>{ bottom: 120px; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>60%<span class="Apple-converted-space">  </span>{ bottom: 120px; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>100% { bottom: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>@keyframes slideAnim {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>0% <span class="Apple-converted-space">  </span>{ height: 40px; width: 40px; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>30%<span class="Apple-converted-space">  </span>{ height: 20px; width: 70px; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>70%<span class="Apple-converted-space">  </span>{ height: 20px; width: 70px; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>100% { height: 40px; width: 40px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;Gesture Game&lt;/h1&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="controls"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button id="connectBtn"&gt;Connect Arduino&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="game"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="player"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="ground"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="status"&gt;Status: not connected&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const connectBtn = document.getElementById("connectBtn");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const statusEl = document.getElementById("status");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const player = document.getElementById("player");</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>let port;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let reader;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function triggerJump() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>player.classList.remove("jump");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>void player.offsetWidth;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>player.classList.add("jump");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function triggerSlide() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>player.classList.remove("slide");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>void player.offsetWidth;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>player.classList.add("slide");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>async function connectSerial() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!("serial" in navigator)) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>statusEl.textContent = "Status: Web Serial not supported in this browser.";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>port = await navigator.serial.requestPort();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>await port.open({ baudRate: 9600 });</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>statusEl.textContent = "Status: connected";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const decoder = new TextDecoderStream();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const readableClosed = port.readable.pipeTo(decoder.writable);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>reader = decoder.readable.getReader();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>while (true) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const { value, done } = await reader.read();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (done) break;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (!value) continue;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>const lines = value.split(/\r?\n/);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>for (const rawLine of lines) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const line = rawLine.trim().toLowerCase();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!line) continue;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>console.log("Arduino:", line);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>statusEl.textContent = "Status: " + line;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (line === "punch") {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>triggerJump();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (line === "flex") {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>triggerSlide();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>await readableClosed;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>console.error(err);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>statusEl.textContent = "Status: error connecting";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>connectBtn.addEventListener("click", connectSerial);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
